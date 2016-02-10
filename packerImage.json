@@ -1,0 +1,28 @@
+{
+  "variables": {
+    "deploy_folder": "/var/hevnly/http-server"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "node",
+      "commit": "true"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["npm install http-server -g"]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "{{user `docker_repo_imgName`}}",
+        "tag": "{{user `tag`}}",
+        "force": "true"
+      }
+    ]
+  ]
+}
